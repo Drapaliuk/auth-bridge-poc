@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>bp_v2/bp_v2_login_page.html</h1>
+    <div>
+        login
+        <input class="loginInput" title="login" type="text">
+    </div>
+    <div>
+        password
+        <input class="passwordInput" type="text">
+    </div>
+
+    <button class="loginBtn">LOGIN</button>
+</body>
+<script>
+    console.log('bp_v2_login_page.html')
+    const TOKEN_KEY = 'test-bridge-token-key'
+    const [loginInput, passwordInput, loginBtn] = ['.loginInput', '.passwordInput', '.loginBtn'].map(selector => document.querySelector(selector))
+
+    const bp_v1_auth_bridge_login_url = 'http://127.0.0.1:5501/bp_v1_auth-bridge-login.html'
+
+    loginBtn.addEventListener('click', () => {
+        const login = loginInput.value || ''
+        const password = passwordInput.value || ''
+
+        const pseudoCognitoToken = `Generated token based on login: "${login}" and password "${password}"`
+        localStorage.setItem(TOKEN_KEY, pseudoCognitoToken)
+
+        window.location.replace(bp_v1_auth_bridge_login_url);
+    })
+</script>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>bp_v1/bp_v1_auth-bridge-login.html</div>
+
+    <h3>You don't have access to bp_v2, click button below to login in bp_v1</h3>
+    <button class="loginByBridge">login in bp_v1</button>
+
+
+    <div class="demo-token"> </div>
+
+
+</body>
+<script>
+    console.log('bp_v1_auth-bridge-login.html')
+    const bp_v2_origin = 'http://127.0.0.1:5502'
+    const bp_v1_origin = 'http://127.0.0.1:5501'
+
+
+    const demoTokenContainer = document.querySelector('.demo-token')
+    const loginByBridgeBtn = document.querySelector('.loginByBridge')
+
+    loginByBridgeBtn.addEventListener('click', () => {
+
+
+
+        const childWindowUrl = bp_v2_origin + '/bp_v2_auth_bridge_view.html'
+
+
+        const width = 500;
+        const height = 600;
+        const left = (window.screen.width - width) / 2;
+        const top = (window.screen.height - height) / 2;
+
+        window.open(
+            childWindowUrl,
+            'AuthBridgePopup',
+            `width=${width},height=${height},top=${top},left=${left},scrollbars=yes`
+        );
+    })
+
+
+
+
+    window.addEventListener('message', ({ data }) => {
+        console.log('Received message: ', data)
+        if (data.request === 'provide-token') {
+            let msg = ''
+            if (!data.token)
+                msg = `Token is not provided: ${data.token}`
+            else
+                msg = `Token successfully received: ${data.token}`
+
+            demoTokenContainer.textContent = msg
+            console.log(msg)
+
+
+
+            const redirectUrl = new URL('/bp_v1_main_page.html', bp_v1_origin);
+            redirectUrl.searchParams.set('token', data.token);
+
+
+            window.location.replace(redirectUrl.href);
+        }
+    });
+
+
+
+
+</script>
+
+</html>

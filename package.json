@@ -1,0 +1,7 @@
+{
+"scripts": {
+  "run:bp_v1": "cd bp_v1 && npx live-server --port=5501",
+  "run:bp_v2": "cd bp_v2 && npx live-server --port=5502",
+  "run:poc": "npm run run:bp_v1 & npm run run:bp_v2"
+}
+}
