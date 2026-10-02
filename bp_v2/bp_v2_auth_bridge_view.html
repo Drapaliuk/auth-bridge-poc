@@ -19,18 +19,16 @@
     window.addEventListener('DOMContentLoaded', shareTokenAndClose);
 
     function shareTokenAndClose() {
-        new Promise(res => setTimeout(res, 3000)).then(() => {
-            if (window.opener) {
+        if (window.opener) {
 
-                const token = localStorage.getItem(TOKEN_KEY);
-                window.opener.postMessage(
-                    { request: 'provide-token', token: token },
-                    bp_v1_auth_bridge_login_url
-                );
-            }
+            const token = localStorage.getItem(TOKEN_KEY);
+            window.opener.postMessage(
+                { request: 'provide-token', token: token },
+                bp_v1_auth_bridge_login_url
+            );
+        }
 
-            window.close();
-        })
+        window.close();
 
     }
 
